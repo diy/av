@@ -15,13 +15,18 @@
 		DEEE481E16AF59750019F37C /* DIYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE481D16AF59750019F37C /* DIYAppDelegate.m */; };
 		DEEE482016AF59750019F37C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DEEE481F16AF59750019F37C /* Default.png */; };
 		DEEE482216AF59750019F37C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEEE482116AF59750019F37C /* Default@2x.png */; };
-		DEEE482416AF59750019F37C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEEE482316AF59750019F37C /* Default-568h@2x.png */; };
 		DEEE482C16AF59770019F37C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE482B16AF59760019F37C /* SenTestingKit.framework */; };
 		DEEE482D16AF59770019F37C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE480D16AF59750019F37C /* UIKit.framework */; };
 		DEEE482E16AF59770019F37C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE480F16AF59750019F37C /* Foundation.framework */; };
 		DEEE483616AF59770019F37C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEEE483416AF59770019F37C /* InfoPlist.strings */; };
 		DEEE483916AF59770019F37C /* DIYAVTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE483816AF59770019F37C /* DIYAVTests.m */; };
 		DEEE484A16AF62130019F37C /* DIYAV.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE484916AF62130019F37C /* DIYAV.m */; };
+		DEEE484D16AF71710019F37C /* DIYAVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE484C16AF71710019F37C /* DIYAVUtilities.m */; };
+		DEEE485016B065310019F37C /* DIYAVPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE484F16B065310019F37C /* DIYAVPreview.m */; };
+		DEEE485616B0A31A0019F37C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485516B0A31A0019F37C /* AssetsLibrary.framework */; };
+		DEEE485816B0A3210019F37C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485716B0A3210019F37C /* AVFoundation.framework */; };
+		DEEE485A16B0A3270019F37C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485916B0A3270019F37C /* CoreMedia.framework */; };
+		DEEE485C16B0A3370019F37C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485B16B0A3370019F37C /* MobileCoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +60,16 @@
 		DEEE483716AF59770019F37C /* DIYAVTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIYAVTests.h; sourceTree = "<group>"; };
 		DEEE483816AF59770019F37C /* DIYAVTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIYAVTests.m; sourceTree = "<group>"; };
 		DEEE484816AF62130019F37C /* DIYAV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAV.h; sourceTree = "<group>"; };
-		DEEE484916AF62130019F37C /* DIYAV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYAV.m; sourceTree = "<group>"; };
+		DEEE484916AF62130019F37C /* DIYAV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DIYAV.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		DEEE484B16AF71710019F37C /* DIYAVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAVUtilities.h; sourceTree = "<group>"; };
+		DEEE484C16AF71710019F37C /* DIYAVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYAVUtilities.m; sourceTree = "<group>"; };
+		DEEE484E16B065310019F37C /* DIYAVPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAVPreview.h; sourceTree = "<group>"; };
+		DEEE484F16B065310019F37C /* DIYAVPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYAVPreview.m; sourceTree = "<group>"; };
+		DEEE485116B07E560019F37C /* DIYAVDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAVDefaults.h; sourceTree = "<group>"; };
+		DEEE485516B0A31A0019F37C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		DEEE485716B0A3210019F37C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DEEE485916B0A3270019F37C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		DEEE485B16B0A3370019F37C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +77,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEEE485C16B0A3370019F37C /* MobileCoreServices.framework in Frameworks */,
+				DEEE485A16B0A3270019F37C /* CoreMedia.framework in Frameworks */,
+				DEEE485816B0A3210019F37C /* AVFoundation.framework in Frameworks */,
+				DEEE485616B0A31A0019F37C /* AssetsLibrary.framework in Frameworks */,
 				DEEE480E16AF59750019F37C /* UIKit.framework in Frameworks */,
 				DEEE481016AF59750019F37C /* Foundation.framework in Frameworks */,
 				DEEE481216AF59750019F37C /* CoreGraphics.framework in Frameworks */,
@@ -105,10 +123,14 @@
 		DEEE480C16AF59750019F37C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DEEE480D16AF59750019F37C /* UIKit.framework */,
-				DEEE480F16AF59750019F37C /* Foundation.framework */,
+				DEEE485516B0A31A0019F37C /* AssetsLibrary.framework */,
+				DEEE485716B0A3210019F37C /* AVFoundation.framework */,
 				DEEE481116AF59750019F37C /* CoreGraphics.framework */,
+				DEEE485916B0A3270019F37C /* CoreMedia.framework */,
+				DEEE480F16AF59750019F37C /* Foundation.framework */,
+				DEEE485B16B0A3370019F37C /* MobileCoreServices.framework */,
 				DEEE482B16AF59760019F37C /* SenTestingKit.framework */,
+				DEEE480D16AF59750019F37C /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -162,6 +184,11 @@
 			children = (
 				DEEE484816AF62130019F37C /* DIYAV.h */,
 				DEEE484916AF62130019F37C /* DIYAV.m */,
+				DEEE485116B07E560019F37C /* DIYAVDefaults.h */,
+				DEEE484E16B065310019F37C /* DIYAVPreview.h */,
+				DEEE484F16B065310019F37C /* DIYAVPreview.m */,
+				DEEE484B16AF71710019F37C /* DIYAVUtilities.h */,
+				DEEE484C16AF71710019F37C /* DIYAVUtilities.m */,
 			);
 			name = DIYAV;
 			path = ../DIYAV;
@@ -242,7 +269,6 @@
 				DEEE481816AF59750019F37C /* InfoPlist.strings in Resources */,
 				DEEE482016AF59750019F37C /* Default.png in Resources */,
 				DEEE482216AF59750019F37C /* Default@2x.png in Resources */,
-				DEEE482416AF59750019F37C /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +306,8 @@
 				DEEE481A16AF59750019F37C /* main.m in Sources */,
 				DEEE481E16AF59750019F37C /* DIYAppDelegate.m in Sources */,
 				DEEE484A16AF62130019F37C /* DIYAV.m in Sources */,
+				DEEE484D16AF71710019F37C /* DIYAVUtilities.m in Sources */,
+				DEEE485016B065310019F37C /* DIYAVPreview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
