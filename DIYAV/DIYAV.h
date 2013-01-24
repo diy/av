@@ -8,29 +8,30 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "DIYAVDefaults.h"
 
 @class DIYAVPreview;
 @class DIYAV;
 
-//
-
 typedef enum {
-    DIYCamModePhoto,
-    DIYCamModeVideo
-} DIYCamMode;
+    DIYAVModePhoto,
+    DIYAVModeVideo
+} DIYAVMode;
+
+//
 
 @protocol DIYAVDelegate <NSObject>
 @required
 - (void)AVReady:(DIYAV *)av;
 - (void)AVDidFail:(DIYAV *)av withError:(NSError *)error;
 
-- (void)AVModeWillChange:(DIYAV *)av mode:(DIYCamMode)mode;
-- (void)AVModeDidChange:(DIYAV *)av mode:(DIYCamMode)mode;
+- (void)AVModeWillChange:(DIYAV *)av mode:(DIYAVMode)mode;
+- (void)AVModeDidChange:(DIYAV *)av mode:(DIYAVMode)mode;
 
 - (void)AVCaptureStarted:(DIYAV *)av;
 - (void)AVCaptureStopped:(DIYAV *)av;
 - (void)AVCaptureProcessing:(DIYAV *)av;
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
+- (void)AVcaptureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
 
 - (void)AVAttachPreviewLayer:(CALayer *)layer;
 
@@ -42,6 +43,14 @@ typedef enum {
 @interface DIYAV : NSObject <AVCaptureFileOutputRecordingDelegate>
 
 @property (weak) id<DIYAVDelegate> delegate;
-@property (nonatomic) DIYCamMode captureMode;
+@property (nonatomic) DIYAVMode captureMode;
+@property BOOL isRecording;
+
+- (void)startSession;
+- (void)stopSession;
+- (void)focusAtPoint:(CGPoint)point inFrame:(CGRect)frame;
+- (void)capturePhoto;
+- (void)captureVideoStart;
+- (void)captureVideoStop;
 
 @end

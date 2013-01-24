@@ -14,10 +14,7 @@
 
 @interface DIYAV ()
 
-@property BOOL isRecording;
-
 @property DIYAVPreview *preview;
-
 @property AVCaptureSession *session;
 @property AVCaptureDeviceInput *videoInput;
 @property AVCaptureDeviceInput *audioInput;
@@ -34,7 +31,7 @@
 {
     if (self = [super init]) {
         // Properties - should get moved to DIYAV
-        _captureMode            = DIYCamModePhoto;
+        _captureMode            = DIYAVModePhoto;
         _session                = [[AVCaptureSession alloc] init];
         
         _preview                = [[DIYAVPreview alloc] initWithSession:_session];
@@ -144,7 +141,7 @@
 
 #pragma mark - Override
 
-- (void)setCaptureMode:(DIYCamMode)captureMode
+- (void)setCaptureMode:(DIYAVMode)captureMode
 {
     // Super
     self->_captureMode = captureMode;
@@ -156,7 +153,7 @@
     switch (captureMode) {
             // Photo mode
             // -------------------------------------
-        case DIYCamModePhoto:
+        case DIYAVModePhoto:
             if ([DIYAVUtilities isPhotoCameraAvailable]) {
                 [self establishPhotoMode];
             } else {
@@ -166,7 +163,7 @@
             
             // Video mode
             // -------------------------------------
-        case DIYCamModeVideo:
+        case DIYAVModeVideo:
             if ([DIYAVUtilities isVideoCameraAvailable]) {
                 [self establishVideoMode];
             } else {
@@ -338,7 +335,15 @@
 #pragma mark - AVCaptureFileOutputRecordingDelegate
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
 {
-    [self.delegate captureOutput:captureOutput didFinishRecordingToOutputFileAtURL:outputFileURL fromConnections:connections error:error];
+    [self.delegate AVcaptureOutput:captureOutput didFinishRecordingToOutputFileAtURL:outputFileURL fromConnections:connections error:error];
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc
+{
+    [self purgeMode];
+    self.delegate = nil;
 }
 
 @end
