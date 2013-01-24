@@ -211,5 +211,16 @@
     return orientation;
 }
 
+#pragma mark - Asset helpers
+
++ (NSString *)createAssetFilePath:(NSString *)extension
+{
+    NSArray *paths                  = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory    = [paths objectAtIndex:0];
+    NSString *assetName             = [NSString stringWithFormat:@"%@.%@", [[NSProcessInfo processInfo] globallyUniqueString], extension];
+    NSString *assetPath             = [documentsDirectory stringByAppendingPathComponent:assetName];
+    
+    return assetPath;
+}
 
 @end

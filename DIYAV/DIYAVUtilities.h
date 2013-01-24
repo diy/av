@@ -23,4 +23,8 @@
 
 + (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(DIYAVPreview *)preview withPorts:(NSArray *)ports;
 
++ (AVCaptureVideoOrientation)getAVCaptureOrientationFromDeviceOrientation;
+
++ (NSString *)createAssetFilePath:(NSString *)extension;
+
 @end

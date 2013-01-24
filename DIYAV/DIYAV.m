@@ -14,8 +14,9 @@
 
 @interface DIYAV ()
 
+@property BOOL isRecording;
+
 @property DIYAVPreview *preview;
-@property (nonatomic) DIYCamMode captureMode;
 
 @property AVCaptureSession *session;
 @property AVCaptureDeviceInput *videoInput;
@@ -29,20 +30,22 @@
 
 #pragma mark - Init
 
-/*
-- (void)_init
-{   
-    // Properties - should get moved to DIYAV
-     _captureMode            = DIYCamModePhoto;
-     _session                = [[AVCaptureSession alloc] init];
-     
-     _preview                = [[DIYCamPreview alloc] initWithSession:_session];
-     _videoInput             = nil;
-     _audioInput             = nil;
-     _stillImageOutput       = [[AVCaptureStillImageOutput alloc] init];
-     _movieFileOutput        = [[AVCaptureMovieFileOutput alloc] init];
+- (id)init
+{
+    if (self = [super init]) {
+        // Properties - should get moved to DIYAV
+        _captureMode            = DIYCamModePhoto;
+        _session                = [[AVCaptureSession alloc] init];
+        
+        _preview                = [[DIYAVPreview alloc] initWithSession:_session];
+        _videoInput             = nil;
+        _audioInput             = nil;
+        _stillImageOutput       = [[AVCaptureStillImageOutput alloc] init];
+        _movieFileOutput        = [[AVCaptureMovieFileOutput alloc] init];
+    }
+    
+    return self;
 }
-*/
 
 #pragma mark - Public methods
 
@@ -75,6 +78,104 @@
             [self.delegate AVDidFail:self withError:error];
         }
     }
+}
+
+- (void)capturePhoto
+{
+    if (self.session != nil) {
+        
+        // Connection
+        AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
+        if (DEVICE_ORIENTATION_FORCE) {
+            stillImageConnection.videoOrientation = DEVICE_ORIENTATION_DEFAULT;
+        } else {
+            stillImageConnection.videoOrientation = [[UIDevice currentDevice] orientation];
+        }
+        
+        // Capture image async block
+        [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:stillImageConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+            [self.delegate AVCaptureOutputStill:imageDataSampleBuffer withError:error];
+        }];
+    } else {
+        [self.delegate AVDidFail:self withError:[NSError errorWithDomain:@"com.diy.av" code:500 userInfo:nil]];
+    }
+}
+
+- (void)captureVideoStart
+{
+    if (self.session != nil) {
+        [self setIsRecording:true];
+        [self.delegate AVCaptureStarted:self];
+        
+        // Create URL to record to
+        NSString *assetPath         = [DIYAVUtilities createAssetFilePath:@"mov"];
+        NSURL *outputURL            = [[NSURL alloc] initFileURLWithPath:assetPath];
+        NSFileManager *fileManager  = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:assetPath]) {
+            NSError *error;
+            if ([fileManager removeItemAtPath:assetPath error:&error] == NO) {
+                [self.delegate AVDidFail:self withError:error];
+            }
+        }
+        
+        // Record in the correct orientation
+        AVCaptureConnection *videoConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[self.movieFileOutput connections]];
+        if ([videoConnection isVideoOrientationSupported] && !DEVICE_ORIENTATION_FORCE) {
+            [videoConnection setVideoOrientation:[DIYAVUtilities getAVCaptureOrientationFromDeviceOrientation]];
+        } else {
+            [videoConnection setVideoOrientation:DEVICE_ORIENTATION_DEFAULT];
+        }
+        
+        // Start recording
+        [self.movieFileOutput startRecordingToOutputFileURL:outputURL recordingDelegate:self];
+    }
+}
+
+- (void)captureVideoStop
+{
+    if (self.session != nil && self.isRecording)
+    {
+        [self setIsRecording:false];
+        [self.delegate AVCaptureStopped:self];
+        
+        [self.movieFileOutput stopRecording];
+    }
+}
+
+#pragma mark - Override
+
+- (void)setCaptureMode:(DIYCamMode)captureMode
+{
+    // Super
+    self->_captureMode = captureMode;
+    
+    //
+    
+    [self.delegate AVModeWillChange:self mode:captureMode];
+    
+    switch (captureMode) {
+            // Photo mode
+            // -------------------------------------
+        case DIYCamModePhoto:
+            if ([DIYAVUtilities isPhotoCameraAvailable]) {
+                [self establishPhotoMode];
+            } else {
+                [self.delegate AVDidFail:self withError:[NSError errorWithDomain:@"com.diy.cam" code:100 userInfo:nil]];
+            }
+            break;
+            
+            // Video mode
+            // -------------------------------------
+        case DIYCamModeVideo:
+            if ([DIYAVUtilities isVideoCameraAvailable]) {
+                [self establishVideoMode];
+            } else {
+                [self.delegate AVDidFail:self withError:[NSError errorWithDomain:@"com.diy.cam" code:101 userInfo:nil]];
+            }
+            break;
+    }
+    
+    [self.delegate AVModeDidChange:self mode:captureMode];
 }
 
 #pragma mark - Private methods

@@ -30,10 +30,11 @@ typedef enum {
 - (void)AVCaptureStarted:(DIYAV *)av;
 - (void)AVCaptureStopped:(DIYAV *)av;
 - (void)AVCaptureProcessing:(DIYAV *)av;
-- (void)AVCaptureComplete:(DIYAV *)av withAsset:(NSDictionary *)asset;
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
 
 - (void)AVAttachPreviewLayer:(CALayer *)layer;
+
+- (void)AVCaptureOutputStill:(CMSampleBufferRef)imageDataSampleBuffer withError:(NSError *)error;
 @end
 
 //
@@ -41,5 +42,6 @@ typedef enum {
 @interface DIYAV : NSObject <AVCaptureFileOutputRecordingDelegate>
 
 @property (weak) id<DIYAVDelegate> delegate;
+@property (nonatomic) DIYCamMode captureMode;
 
 @end
