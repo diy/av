@@ -12,14 +12,31 @@
 #import "DIYAVUtilities.h"
 #import "DIYAVPreview.h"
 
+#import "Underscore.h"
+
+NSString *const AVSettingFlash                  = @"AVSettingFlash";
+NSString *const AVSettingOrientationForce       = @"AVSettingOrientationForce";
+NSString *const AVSettingOrientationDefault     = @"AVSettingOrientationDefault";
+NSString *const AVSettingCameraPosition         = @"AVSettingCameraPosition";
+NSString *const AVSettingCameraHighISO          = @"AVSettingCameraHighISO";
+NSString *const AVSettingPhotoPreset            = @"AVSettingPhotoPreset";
+NSString *const AVSettingPhotoGravity           = @"AVSettingPhotoGravity";
+NSString *const AVSettingVideoPreset            = @"AVSettingVideoPreset";
+NSString *const AVSettingVideoGravity           = @"AVSettingVideoGravity";
+NSString *const AVSettingVideoMaxDuration       = @"AVSettingVideoMaxDuration";
+NSString *const AVSettingVideoFPS               = @"AVSettingVideoFPS";
+NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
+
 @interface DIYAV ()
 
-@property DIYAVPreview *preview;
-@property AVCaptureSession *session;
-@property AVCaptureDeviceInput *videoInput;
-@property AVCaptureDeviceInput *audioInput;
+@property NSDictionary              *options;
+
+@property DIYAVPreview              *preview;
+@property AVCaptureSession          *session;
+@property AVCaptureDeviceInput      *videoInput;
+@property AVCaptureDeviceInput      *audioInput;
 @property AVCaptureStillImageOutput *stillImageOutput;
-@property AVCaptureMovieFileOutput *movieFileOutput;
+@property AVCaptureMovieFileOutput  *movieFileOutput;
 
 @end
 
@@ -40,6 +57,23 @@
         _stillImageOutput       = [[AVCaptureStillImageOutput alloc] init];
         _movieFileOutput        = [[AVCaptureMovieFileOutput alloc] init];
     }
+    
+    return self;
+}
+
+- (id)initWithOptions:(NSDictionary *)options
+{
+    NSDictionary *defaultOptions;
+    defaultOptions = @{};
+    
+    // Dict -> Properties
+    _options =  Underscore.dict(options)
+                .defaults(defaultOptions)
+                .pick(@[ @"path" ])
+                .each(^(id key, id obj) {
+                    [self setValue:obj forKey:key];
+                })
+                .unwrap;
     
     return self;
 }

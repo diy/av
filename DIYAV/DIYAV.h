@@ -18,6 +18,21 @@ typedef enum {
     DIYAVModeVideo
 } DIYAVMode;
 
+// Settings
+NSString *const AVSettingFlash;
+NSString *const AVSettingOrientationForce;
+NSString *const AVSettingOrientationDefault;
+NSString *const AVSettingCameraPosition;
+NSString *const AVSettingCameraHighISO;
+NSString *const AVSettingPhotoPreset;
+NSString *const AVSettingPhotoGravity;
+NSString *const AVSettingVideoPreset;
+NSString *const AVSettingVideoGravity;
+NSString *const AVSettingVideoMaxDuration;
+NSString *const AVSettingVideoFPS;
+NSString *const AVSettingSaveLibrary;
+
+
 //
 
 @protocol DIYAVDelegate <NSObject>
@@ -42,9 +57,11 @@ typedef enum {
 
 @interface DIYAV : NSObject <AVCaptureFileOutputRecordingDelegate>
 
-@property (weak) id<DIYAVDelegate> delegate;
-@property (nonatomic) DIYAVMode captureMode;
-@property BOOL isRecording;
+@property (weak)        id<DIYAVDelegate>   delegate;
+@property (nonatomic)   DIYAVMode           captureMode;
+@property               BOOL                isRecording;
+
+- (id)initWithOptions:(NSDictionary *)options;
 
 - (void)startSession;
 - (void)stopSession;
