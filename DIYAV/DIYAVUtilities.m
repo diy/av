@@ -17,11 +17,11 @@
 
 #pragma mark - General
 
-+ (AVCaptureDevice *)camera
++ (AVCaptureDevice *)cameraInPosition:(AVCaptureDevicePosition)position
 {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for (AVCaptureDevice *device in devices) {
-        if ([device position] == DEVICE_POSITION) {
+        if ([device position] == position) {
             return device;
         }
     }

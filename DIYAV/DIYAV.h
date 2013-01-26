@@ -19,25 +19,25 @@ typedef enum {
 } DIYAVMode;
 
 // Settings
-NSString *const AVSettingFlash;
-NSString *const AVSettingOrientationForce;
-NSString *const AVSettingOrientationDefault;
-NSString *const AVSettingCameraPosition;
-NSString *const AVSettingCameraHighISO;
-NSString *const AVSettingPhotoPreset;
-NSString *const AVSettingPhotoGravity;
-NSString *const AVSettingVideoPreset;
-NSString *const AVSettingVideoGravity;
-NSString *const AVSettingVideoMaxDuration;
-NSString *const AVSettingVideoFPS;
-NSString *const AVSettingSaveLibrary;
-
+NSString *const DIYAVSettingFlash;
+NSString *const DIYAVSettingOrientationForce;
+NSString *const DIYAVSettingOrientationDefault;
+NSString *const DIYAVSettingCameraPosition;
+NSString *const DIYAVSettingCameraHighISO;
+NSString *const DIYAVSettingPhotoPreset;
+NSString *const DIYAVSettingPhotoGravity;
+NSString *const DIYAVSettingVideoPreset;
+NSString *const DIYAVSettingVideoGravity;
+NSString *const DIYAVSettingVideoMaxDuration;
+NSString *const DIYAVSettingVideoFPS;
+NSString *const DIYAVSettingSaveLibrary;
 
 //
 
 @protocol DIYAVDelegate <NSObject>
 @required
-- (void)AVReady:(DIYAV *)av;
+- (void)AVAttachPreviewLayer:(CALayer *)layer;
+
 - (void)AVDidFail:(DIYAV *)av withError:(NSError *)error;
 
 - (void)AVModeWillChange:(DIYAV *)av mode:(DIYAVMode)mode;
@@ -45,12 +45,8 @@ NSString *const AVSettingSaveLibrary;
 
 - (void)AVCaptureStarted:(DIYAV *)av;
 - (void)AVCaptureStopped:(DIYAV *)av;
-- (void)AVCaptureProcessing:(DIYAV *)av;
-- (void)AVcaptureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
-
-- (void)AVAttachPreviewLayer:(CALayer *)layer;
-
-- (void)AVCaptureOutputStill:(CMSampleBufferRef)imageDataSampleBuffer withError:(NSError *)error;
+- (void)AVcaptureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL shouldSaveToLibrary:(BOOL)shouldSaveToLibrary fromConnections:(NSArray *)connections error:(NSError *)error;
+- (void)AVCaptureOutputStill:(CMSampleBufferRef)imageDataSampleBuffer shouldSaveToLibrary:(BOOL)shouldSaveToLibrary withError:(NSError *)error;
 @end
 
 //

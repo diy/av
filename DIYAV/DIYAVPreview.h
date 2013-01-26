@@ -11,7 +11,7 @@
 @interface DIYAVPreview : AVCaptureVideoPreviewLayer
 
 @property BOOL                      shouldForceOrientation;
-@property AVCaptureVideoOrientation forcedOrientation;
+@property AVCaptureVideoOrientation defaultOrientation;
 
 - (void)reset;
 

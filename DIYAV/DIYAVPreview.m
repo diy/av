@@ -53,6 +53,13 @@
     [self orientationDidChange];    // Force orientation check
 }
 
+- (void)setForceOrientation:(BOOL)forceOrientation withDefaultOrientation:(AVCaptureVideoOrientation)defaultOrientation
+{
+    self.shouldForceOrientation = forceOrientation;
+    self.defaultOrientation     = defaultOrientation;
+    [self reset];
+}
+
 #pragma mark - Private methods
 /*
  NOTE: [AVCaptureVideoPreviewLayer isOrientationSupported] is deprecated in favor of
@@ -63,7 +70,7 @@
  */
 - (void)orientationDidChange
 {
-    AVCaptureVideoOrientation newOrientation = self.forcedOrientation;
+    AVCaptureVideoOrientation newOrientation = self.defaultOrientation;
 
     if (!self.shouldForceOrientation && self.orientationSupported) {
         UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];

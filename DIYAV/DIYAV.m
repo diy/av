@@ -14,18 +14,18 @@
 
 #import "Underscore.h"
 
-NSString *const AVSettingFlash                  = @"AVSettingFlash";
-NSString *const AVSettingOrientationForce       = @"AVSettingOrientationForce";
-NSString *const AVSettingOrientationDefault     = @"AVSettingOrientationDefault";
-NSString *const AVSettingCameraPosition         = @"AVSettingCameraPosition";
-NSString *const AVSettingCameraHighISO          = @"AVSettingCameraHighISO";
-NSString *const AVSettingPhotoPreset            = @"AVSettingPhotoPreset";
-NSString *const AVSettingPhotoGravity           = @"AVSettingPhotoGravity";
-NSString *const AVSettingVideoPreset            = @"AVSettingVideoPreset";
-NSString *const AVSettingVideoGravity           = @"AVSettingVideoGravity";
-NSString *const AVSettingVideoMaxDuration       = @"AVSettingVideoMaxDuration";
-NSString *const AVSettingVideoFPS               = @"AVSettingVideoFPS";
-NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
+NSString *const DIYAVSettingFlash                  = @"DIYAVSettingFlash";
+NSString *const DIYAVSettingOrientationForce       = @"DIYAVSettingOrientationForce";
+NSString *const DIYAVSettingOrientationDefault     = @"DIYAVSettingOrientationDefault";
+NSString *const DIYAVSettingCameraPosition         = @"DIYAVSettingCameraPosition";
+NSString *const DIYAVSettingCameraHighISO          = @"DIYAVSettingCameraHighISO";
+NSString *const DIYAVSettingPhotoPreset            = @"DIYAVSettingPhotoPreset";
+NSString *const DIYAVSettingPhotoGravity           = @"DIYAVSettingPhotoGravity";
+NSString *const DIYAVSettingVideoPreset            = @"DIYAVSettingVideoPreset";
+NSString *const DIYAVSettingVideoGravity           = @"DIYAVSettingVideoGravity";
+NSString *const DIYAVSettingVideoMaxDuration       = @"DIYAVSettingVideoMaxDuration";
+NSString *const DIYAVSettingVideoFPS               = @"DIYAVSettingVideoFPS";
+NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
 
 @interface DIYAV ()
 
@@ -44,36 +44,63 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
 
 #pragma mark - Init
 
+- (void)_init
+{
+    // Options
+    NSDictionary *defaultOptions;
+    defaultOptions          = @{ DIYAVSettingFlash              : @false,
+                                 DIYAVSettingOrientationForce   : @false,
+                                 DIYAVSettingOrientationDefault : [NSNumber numberWithInt:AVCaptureVideoOrientationLandscapeRight],
+                                 DIYAVSettingCameraPosition     : [NSNumber numberWithInt:AVCaptureDevicePositionBack],
+                                 DIYAVSettingCameraHighISO      : @true,
+                                 DIYAVSettingPhotoPreset        : AVCaptureSessionPresetPhoto,
+                                 DIYAVSettingPhotoGravity       : AVLayerVideoGravityResizeAspectFill,
+                                 DIYAVSettingVideoPreset        : AVCaptureSessionPreset1280x720,
+                                 DIYAVSettingVideoGravity       : AVLayerVideoGravityResizeAspectFill,
+                                 DIYAVSettingVideoMaxDuration   : @300,
+                                 DIYAVSettingVideoFPS           : @30,
+                                 DIYAVSettingSaveLibrary        : @true };
+    
+    _options                = Underscore.dict(_options)
+                              .defaults(defaultOptions)
+                              .pick(@[ @"path" ])
+                              .each(^(id key, id obj) {
+                                  [self setValue:obj forKey:key];
+                              })
+                              .unwrap;
+    
+    // AV setup
+    _captureMode            = DIYAVModePhoto;
+    _session                = [[AVCaptureSession alloc] init];
+    
+    _preview                = [[DIYAVPreview alloc] initWithSession:_session];
+    _videoInput             = nil;
+    _audioInput             = nil;
+    _stillImageOutput       = [[AVCaptureStillImageOutput alloc] init];
+    _movieFileOutput        = [[AVCaptureMovieFileOutput alloc] init];
+}
+
 - (id)init
 {
-    if (self = [super init]) {
-        // Properties - should get moved to DIYAV
-        _captureMode            = DIYAVModePhoto;
-        _session                = [[AVCaptureSession alloc] init];
-        
-        _preview                = [[DIYAVPreview alloc] initWithSession:_session];
-        _videoInput             = nil;
-        _audioInput             = nil;
-        _stillImageOutput       = [[AVCaptureStillImageOutput alloc] init];
-        _movieFileOutput        = [[AVCaptureMovieFileOutput alloc] init];
+    self = [super init];
+    if (self) {
+        _options = @{};
+        [self _init];
     }
-    
+
     return self;
 }
 
 - (id)initWithOptions:(NSDictionary *)options
 {
-    NSDictionary *defaultOptions;
-    defaultOptions = @{};
-    
-    // Dict -> Properties
-    _options =  Underscore.dict(options)
-                .defaults(defaultOptions)
-                .pick(@[ @"path" ])
-                .each(^(id key, id obj) {
-                    [self setValue:obj forKey:key];
-                })
-                .unwrap;
+    self = [super init];
+    if (self) {
+        if (!options) {
+            options = @{};
+        }
+        _options = options;
+        [self _init];
+    }
     
     return self;
 }
@@ -117,15 +144,15 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
         
         // Connection
         AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
-        if (DEVICE_ORIENTATION_FORCE) {
-            stillImageConnection.videoOrientation = DEVICE_ORIENTATION_DEFAULT;
+        if ([self.options valueForKey:DIYAVSettingOrientationForce]) {
+            stillImageConnection.videoOrientation = [self.options valueForKey:DIYAVSettingOrientationDefault];
         } else {
             stillImageConnection.videoOrientation = [[UIDevice currentDevice] orientation];
         }
         
         // Capture image async block
         [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:stillImageConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-            [self.delegate AVCaptureOutputStill:imageDataSampleBuffer withError:error];
+            [self.delegate AVCaptureOutputStill:imageDataSampleBuffer shouldSaveToLibrary:[[self.options valueForKey:DIYAVSettingSaveLibrary] boolValue] withError:error];
         }];
     } else {
         [self.delegate AVDidFail:self withError:[NSError errorWithDomain:@"com.diy.av" code:500 userInfo:nil]];
@@ -151,10 +178,10 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
         
         // Record in the correct orientation
         AVCaptureConnection *videoConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[self.movieFileOutput connections]];
-        if ([videoConnection isVideoOrientationSupported] && !DEVICE_ORIENTATION_FORCE) {
+        if ([videoConnection isVideoOrientationSupported] && ![[self.options valueForKey:DIYAVSettingOrientationForce] boolValue]) {
             [videoConnection setVideoOrientation:[DIYAVUtilities getAVCaptureOrientationFromDeviceOrientation]];
         } else {
-            [videoConnection setVideoOrientation:DEVICE_ORIENTATION_DEFAULT];
+            [videoConnection setVideoOrientation:[[self.options valueForKey:DIYAVSettingOrientationDefault] integerValue]];
         }
         
         // Start recording
@@ -232,7 +259,7 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:DEVICE_FLASH];
+    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue]];
     
     // Inputs
     // ---------------------------------
@@ -240,7 +267,7 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     if (videoDevice) {
         NSError *error;
         self.videoInput             = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        [DIYAVUtilities setHighISO:DEVICE_HI_ISO];
+        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue]];
         if (!error) {
             if ([self.session canAddInput:self.videoInput]) {
                 [self.session addInput:self.videoInput];
@@ -263,16 +290,14 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     // Preset
     // ---------------------------------
     self.session.sessionPreset = AVCaptureSessionPresetMedium;
-    if ([self.session canSetSessionPreset:PHOTO_SESSION_PRESET]) {
-        self.session.sessionPreset = PHOTO_SESSION_PRESET;
+    if ([self.session canSetSessionPreset:[self.options valueForKey:DIYAVSettingPhotoPreset]]) {
+        self.session.sessionPreset = [self.options valueForKey:DIYAVSettingPhotoPreset];
     }
     
     // Preview
     // ---------------------------------
     self.preview.videoGravity   = AVLayerVideoGravityResizeAspectFill;
-//    self.preview.frame          = self.frame;
     [self.preview reset];
-//    [self.layer addSublayer:self.preview];
     [self.delegate AVAttachPreviewLayer:self.preview];
     
     // Start session
@@ -286,7 +311,7 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:DEVICE_FLASH];
+    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue]];
     
     // Inputs
     // ---------------------------------
@@ -294,7 +319,7 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     if (videoDevice) {
         NSError *error;
         self.videoInput             = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        [DIYAVUtilities setHighISO:DEVICE_HI_ISO];
+        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue]];
         if (!error) {
             if ([self.session canAddInput:self.videoInput]) {
                 [self.session addInput:self.videoInput];
@@ -323,8 +348,8 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     
     // Outputs
     // ---------------------------------
-    Float64 TotalSeconds                            = VIDEO_MAX_DURATION;			// Max seconds
-    int32_t preferredTimeScale                      = VIDEO_FPS;                // Frames per second
+    Float64 TotalSeconds                            = [[self.options valueForKey:DIYAVSettingVideoMaxDuration] floatValue];			// Max seconds
+    int32_t preferredTimeScale                      = [[self.options valueForKey:DIYAVSettingVideoFPS] integerValue];                // Frames per second
     CMTime maxDuration                              = CMTimeMakeWithSeconds(TotalSeconds, preferredTimeScale);
     self.movieFileOutput.maxRecordedDuration        = maxDuration;
     self.movieFileOutput.minFreeDiskSpaceLimit      = DEVICE_DISK_MINIMUM;
@@ -337,11 +362,11 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     
 	if (CaptureConnection.supportsVideoMinFrameDuration)
     {
-        CaptureConnection.videoMinFrameDuration = CMTimeMake(1, VIDEO_FPS);
+        CaptureConnection.videoMinFrameDuration = CMTimeMake(1, [[self.options valueForKey:DIYAVSettingVideoFPS] integerValue]);
     }
 	if (CaptureConnection.supportsVideoMaxFrameDuration)
     {
-        CaptureConnection.videoMaxFrameDuration = CMTimeMake(1, VIDEO_FPS);
+        CaptureConnection.videoMaxFrameDuration = CMTimeMake(1, [[self.options valueForKey:DIYAVSettingVideoFPS] integerValue]);
     }
     
 	CMTimeShow(CaptureConnection.videoMinFrameDuration);
@@ -350,14 +375,13 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
     // Preset
     // ---------------------------------
     self.session.sessionPreset = AVCaptureSessionPresetMedium;
-    if ([self.session canSetSessionPreset:VIDEO_SESSION_PRESET]) {
-        self.session.sessionPreset = VIDEO_SESSION_PRESET;
+    if ([self.session canSetSessionPreset:[self.options valueForKey:DIYAVSettingVideoPreset]]) {
+        self.session.sessionPreset = [self.options valueForKey:DIYAVSettingVideoPreset];
     }
     
     // Preview
     // ---------------------------------
     self.preview.videoGravity   = AVLayerVideoGravityResizeAspectFill;
-//    self.preview.frame          = self.frame;
     [self.preview reset];
     [self.delegate AVAttachPreviewLayer:self.preview];
     
@@ -369,7 +393,7 @@ NSString *const AVSettingSaveLibrary            = @"AVSettingSaveLibrary";
 #pragma mark - AVCaptureFileOutputRecordingDelegate
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
 {
-    [self.delegate AVcaptureOutput:captureOutput didFinishRecordingToOutputFileAtURL:outputFileURL fromConnections:connections error:error];
+    [self.delegate AVcaptureOutput:captureOutput didFinishRecordingToOutputFileAtURL:outputFileURL shouldSaveToLibrary:[[self.options valueForKey:DIYAVSettingSaveLibrary] boolValue] fromConnections:connections error:error];
 }
 
 #pragma mark - Dealloc
