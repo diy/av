@@ -13,10 +13,8 @@ In order to use DIYAV, you'll want to add the entirety of the `DIYAV` directory 
 ```
 
 ```objective-c
-DIYCam *cam         = [[DIYCam alloc] initWithFrame:self.view.frame];
-cam.delegate        = self;
-cam.captureMode     = DIYCamModePhoto;
-[self.view addSubview:cam];
+DIYAV *diyAV         = [[DIYAV alloc] init];
+diyAV.delegate        = self;
 ```
 
 You'll also need to link the following frameworks:
@@ -29,7 +27,7 @@ CoreMedia.framework
 MobileCoreServices.framework
 QuartzCore.framework
 ```
-    
+
 ## Configuration
 Default configuration settings can be modified within DIYCamDefaults.h where options for asset library use, orientation, device settings, and quality can be modified.
 
@@ -37,6 +35,11 @@ Default configuration settings can be modified within DIYCamDefaults.h where opt
 
 ## Methods
 ```objective-c
+- (id)initWithOptions:(NSDictionary *)options;
+
+- (void)startSession;
+- (void)stopSession;
+- (void)focusAtPoint:(CGPoint)point inFrame:(CGRect)frame;
 - (void)capturePhoto;
 - (void)captureVideoStart;
 - (void)captureVideoStop;
@@ -44,26 +47,24 @@ Default configuration settings can be modified within DIYCamDefaults.h where opt
 
 ## Delegate Methods
 ```objective-c
-- (void)AVReady:(DIYAV *)av;
+- (void)AVAttachPreviewLayer:(CALayer *)layer;
+
 - (void)AVDidFail:(DIYAV *)av withError:(NSError *)error;
 
-- (void)AVModeWillChange:(DIYAV *)av mode:(DIYCamMode)mode;
-- (void)AVModeDidChange:(DIYAV *)av mode:(DIYCamMode)mode;
+- (void)AVModeWillChange:(DIYAV *)av mode:(DIYAVMode)mode;
+- (void)AVModeDidChange:(DIYAV *)av mode:(DIYAVMode)mode;
 
 - (void)AVCaptureStarted:(DIYAV *)av;
 - (void)AVCaptureStopped:(DIYAV *)av;
-- (void)AVCaptureProcessing:(DIYAV *)av;
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
-
-- (void)AVAttachPreviewLayer:(CALayer *)layer;
-
+- (void)AVcaptureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
 - (void)AVCaptureOutputStill:(CMSampleBufferRef)imageDataSampleBuffer withError:(NSError *)error;
 ```
 
 ## Properties
 ```objective-c
-@property (weak) id<DIYAVDelegate> delegate;
-@property (nonatomic) DIYCamMode captureMode;
+@property (weak)        id<DIYAVDelegate>   delegate;
+@property (nonatomic)   DIYAVMode           captureMode;
+@property               BOOL                isRecording;
 ```
 
 ---
