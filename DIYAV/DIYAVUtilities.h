@@ -13,13 +13,13 @@
 
 @interface DIYAVUtilities : NSObject
 
-+ (AVCaptureDevice *)camera;
++ (AVCaptureDevice *)cameraInPosition:(AVCaptureDevicePosition)position;
 + (BOOL)isPhotoCameraAvailable;
 + (BOOL)isVideoCameraAvailable;
 + (AVCaptureConnection *)connectionWithMediaType:(NSString *)mediaType fromConnections:(NSArray *)connections;
 
-+ (void)setFlash:(BOOL)flash;
-+ (void)setHighISO:(BOOL)highISO;
++ (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position;
++ (void)setHighISO:(BOOL)highISO forCameraInPosition:(AVCaptureDevicePosition)position;
 
 + (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(DIYAVPreview *)preview withPorts:(NSArray *)ports;
 

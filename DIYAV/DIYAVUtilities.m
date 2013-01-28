@@ -66,48 +66,48 @@
 
 #pragma mark - Device setup
 
-+ (void)setFlash:(BOOL)flash
++ (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position
 {
     // Flash
-    if ([[self camera] hasFlash]) {
-        if ([[self camera] lockForConfiguration:nil]) {
+    if ([[self cameraInPosition:position] hasFlash]) {
+        if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
             if (flash) {
-                if ([[self camera] isFlashModeSupported:AVCaptureFlashModeAuto]) {
-                    [[self camera] setFlashMode:AVCaptureFlashModeAuto];
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeAuto]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeAuto];
                 }
             } else {
-                if ([[self camera] isFlashModeSupported:AVCaptureFlashModeOff]) {
-                    [[self camera] setFlashMode:AVCaptureFlashModeOff];
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOff]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOff];
                 }
             }
-            [[self camera] unlockForConfiguration];
+            [[self cameraInPosition:position] unlockForConfiguration];
         }
     }
     
     // Torch
-    if ([[self camera] hasTorch]) {
-        if ([[self camera] lockForConfiguration:nil]) {
+    if ([[self cameraInPosition:position] hasTorch]) {
+        if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
             if (flash)
             {
-                if ([[self camera] isTorchModeSupported:AVCaptureTorchModeAuto]) {
-                    [[self camera] setTorchMode:AVCaptureTorchModeAuto];
+                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeAuto]) {
+                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeAuto];
                 }
             } else {
-                if ([[self camera] isTorchModeSupported:AVCaptureTorchModeOff]) {
-                    [[self camera] setTorchMode:AVCaptureTorchModeOff];
+                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOff]) {
+                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOff];
                 }
             }
-            [[self camera] unlockForConfiguration];
+            [[self cameraInPosition:position] unlockForConfiguration];
         }
     }
 }
 
-+ (void)setHighISO:(BOOL)highISO
++ (void)setHighISO:(BOOL)highISO forCameraInPosition:(AVCaptureDevicePosition)position
 {
-    if ([[self camera] respondsToSelector:@selector(isLowLightBoostSupported)]) {
-        if ([[self camera] lockForConfiguration:nil] && [self camera].isLowLightBoostSupported) {
-            [self camera].automaticallyEnablesLowLightBoostWhenAvailable = highISO;
-            [[self camera] unlockForConfiguration];
+    if ([[self cameraInPosition:position] respondsToSelector:@selector(isLowLightBoostSupported)]) {
+        if ([[self cameraInPosition:position] lockForConfiguration:nil] && [self cameraInPosition:position].isLowLightBoostSupported) {
+            [self cameraInPosition:position].automaticallyEnablesLowLightBoostWhenAvailable = highISO;
+            [[self cameraInPosition:position] unlockForConfiguration];
         }
     }
 }

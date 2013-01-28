@@ -63,10 +63,6 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     _options                = Underscore.dict(_options)
                               .defaults(defaultOptions)
-                              .pick(@[ @"path" ])
-                              .each(^(id key, id obj) {
-                                  [self setValue:obj forKey:key];
-                              })
                               .unwrap;
     
     // AV setup
@@ -143,15 +139,15 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     if (self.session != nil) {
         
         // Connection
-        AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];
+        AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[self.stillImageOutput connections]];
         if ([self.options valueForKey:DIYAVSettingOrientationForce]) {
-            stillImageConnection.videoOrientation = [self.options valueForKey:DIYAVSettingOrientationDefault];
+            stillImageConnection.videoOrientation = [[self.options valueForKey:DIYAVSettingOrientationDefault] integerValue];
         } else {
             stillImageConnection.videoOrientation = [[UIDevice currentDevice] orientation];
         }
         
         // Capture image async block
-        [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:stillImageConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+        [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             [self.delegate AVCaptureOutputStill:imageDataSampleBuffer shouldSaveToLibrary:[[self.options valueForKey:DIYAVSettingSaveLibrary] boolValue] withError:error];
         }];
     } else {
@@ -259,15 +255,15 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue]];
+    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
     
     // Inputs
     // ---------------------------------
-    AVCaptureDevice *videoDevice    = [DIYAVUtilities camera];
+    AVCaptureDevice *videoDevice    = [DIYAVUtilities cameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
     if (videoDevice) {
         NSError *error;
         self.videoInput             = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue]];
+        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
         if (!error) {
             if ([self.session canAddInput:self.videoInput]) {
                 [self.session addInput:self.videoInput];
@@ -311,15 +307,15 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue]];
+    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
     
     // Inputs
     // ---------------------------------
-    AVCaptureDevice *videoDevice    = [DIYAVUtilities camera];
+    AVCaptureDevice *videoDevice    = [DIYAVUtilities cameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
     if (videoDevice) {
         NSError *error;
         self.videoInput             = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue]];
+        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
         if (!error) {
             if ([self.session canAddInput:self.videoInput]) {
                 [self.session addInput:self.videoInput];
