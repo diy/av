@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE67106F16B9FDAA0031F2FE /* Underscore+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106616B9FDAA0031F2FE /* Underscore+Functional.m */; };
+		DE67107016B9FDAA0031F2FE /* Underscore.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106916B9FDAA0031F2FE /* Underscore.m */; };
+		DE67107116B9FDAA0031F2FE /* USArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106B16B9FDAA0031F2FE /* USArrayWrapper.m */; };
+		DE67107216B9FDAA0031F2FE /* USDictionaryWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106E16B9FDAA0031F2FE /* USDictionaryWrapper.m */; };
 		DEEE480E16AF59750019F37C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE480D16AF59750019F37C /* UIKit.framework */; };
 		DEEE481016AF59750019F37C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE480F16AF59750019F37C /* Foundation.framework */; };
 		DEEE481216AF59750019F37C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE481116AF59750019F37C /* CoreGraphics.framework */; };
@@ -40,6 +44,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE67106516B9FDAA0031F2FE /* Underscore+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Underscore+Functional.h"; sourceTree = "<group>"; };
+		DE67106616B9FDAA0031F2FE /* Underscore+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Underscore+Functional.m"; sourceTree = "<group>"; };
+		DE67106716B9FDAA0031F2FE /* Underscore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Underscore-Prefix.pch"; sourceTree = "<group>"; };
+		DE67106816B9FDAA0031F2FE /* Underscore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Underscore.h; sourceTree = "<group>"; };
+		DE67106916B9FDAA0031F2FE /* Underscore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Underscore.m; sourceTree = "<group>"; };
+		DE67106A16B9FDAA0031F2FE /* USArrayWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USArrayWrapper.h; sourceTree = "<group>"; };
+		DE67106B16B9FDAA0031F2FE /* USArrayWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USArrayWrapper.m; sourceTree = "<group>"; };
+		DE67106C16B9FDAA0031F2FE /* USConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USConstants.h; sourceTree = "<group>"; };
+		DE67106D16B9FDAA0031F2FE /* USDictionaryWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USDictionaryWrapper.h; sourceTree = "<group>"; };
+		DE67106E16B9FDAA0031F2FE /* USDictionaryWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USDictionaryWrapper.m; sourceTree = "<group>"; };
 		DEEE480916AF59750019F37C /* DIYAV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIYAV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEE480D16AF59750019F37C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DEEE480F16AF59750019F37C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -100,9 +114,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE67106316B9FDAA0031F2FE /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				DE67106416B9FDAA0031F2FE /* Underscore */,
+			);
+			name = lib;
+			path = ../DIYAV/lib;
+			sourceTree = "<group>";
+		};
+		DE67106416B9FDAA0031F2FE /* Underscore */ = {
+			isa = PBXGroup;
+			children = (
+				DE67106516B9FDAA0031F2FE /* Underscore+Functional.h */,
+				DE67106616B9FDAA0031F2FE /* Underscore+Functional.m */,
+				DE67106716B9FDAA0031F2FE /* Underscore-Prefix.pch */,
+				DE67106816B9FDAA0031F2FE /* Underscore.h */,
+				DE67106916B9FDAA0031F2FE /* Underscore.m */,
+				DE67106A16B9FDAA0031F2FE /* USArrayWrapper.h */,
+				DE67106B16B9FDAA0031F2FE /* USArrayWrapper.m */,
+				DE67106C16B9FDAA0031F2FE /* USConstants.h */,
+				DE67106D16B9FDAA0031F2FE /* USDictionaryWrapper.h */,
+				DE67106E16B9FDAA0031F2FE /* USDictionaryWrapper.m */,
+			);
+			path = Underscore;
+			sourceTree = "<group>";
+		};
 		DEEE47FE16AF59750019F37C = {
 			isa = PBXGroup;
 			children = (
+				DE67106316B9FDAA0031F2FE /* lib */,
 				DEEE484716AF611C0019F37C /* DIYAV */,
 				DEEE481316AF59750019F37C /* Example */,
 				DEEE483116AF59770019F37C /* DIYAVTests */,
@@ -308,6 +349,10 @@
 				DEEE484A16AF62130019F37C /* DIYAV.m in Sources */,
 				DEEE484D16AF71710019F37C /* DIYAVUtilities.m in Sources */,
 				DEEE485016B065310019F37C /* DIYAVPreview.m in Sources */,
+				DE67106F16B9FDAA0031F2FE /* Underscore+Functional.m in Sources */,
+				DE67107016B9FDAA0031F2FE /* Underscore.m in Sources */,
+				DE67107116B9FDAA0031F2FE /* USArrayWrapper.m in Sources */,
+				DE67107216B9FDAA0031F2FE /* USDictionaryWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
