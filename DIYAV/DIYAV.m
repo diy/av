@@ -62,14 +62,19 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
                                  DIYAVSettingSaveLibrary        : @true };
     
     _options                = Underscore.dict(_options)
-                              .defaults(defaultOptions)
-                              .unwrap;
+    .defaults(defaultOptions)
+    .unwrap;
     
     // AV setup
     _captureMode            = DIYAVModePhoto;
     _session                = [[AVCaptureSession alloc] init];
     
+    // Preview settings
     _preview                = [[DIYAVPreview alloc] initWithSession:_session];
+    self.preview.shouldForceOrientation     = [[self.options valueForKey:DIYAVSettingOrientationForce] boolValue];
+    self.preview.defaultOrientation         = [[self.options valueForKey:DIYAVSettingOrientationDefault] intValue];
+    
+    
     _videoInput             = nil;
     _audioInput             = nil;
     _stillImageOutput       = [[AVCaptureStillImageOutput alloc] init];
@@ -83,7 +88,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         _options = @{};
         [self _init];
     }
-
+    
     return self;
 }
 
@@ -140,7 +145,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         
         // Connection
         AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[self.stillImageOutput connections]];
-        if ([self.options valueForKey:DIYAVSettingOrientationForce]) {
+        if ([[self.options valueForKey:DIYAVSettingOrientationForce] boolValue]) {
             stillImageConnection.videoOrientation = [[self.options valueForKey:DIYAVSettingOrientationDefault] integerValue];
         } else {
             stillImageConnection.videoOrientation = [[UIDevice currentDevice] orientation];
