@@ -145,7 +145,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         
         // Connection
         AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[self.stillImageOutput connections]];
-        if ([[self.options valueForKey:DIYAVSettingOrientationForce] boolValue]) {
+        if ([self.options valueForKey:DIYAVSettingOrientationForce]) {
             stillImageConnection.videoOrientation = [[self.options valueForKey:DIYAVSettingOrientationDefault] integerValue];
         } else {
             stillImageConnection.videoOrientation = [[UIDevice currentDevice] orientation];
@@ -162,7 +162,11 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
 
 - (void)captureVideoStart
 {
-    if (self.session != nil) {
+    if ([DIYAVUtilities getFreeDiskSpace] < DEVICE_DISK_MINIMUM) {
+        [self.delegate AVDidFail:self withError:[NSError errorWithDomain:@"com.diy.av" code:500 userInfo:@{NSLocalizedDescriptionKey : @"Insufficient disk space to record video"}]];
+    }
+    
+    else if (self.session != nil) {
         [self setIsRecording:true];
         [self.delegate AVCaptureStarted:self];
         

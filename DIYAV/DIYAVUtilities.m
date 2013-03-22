@@ -68,22 +68,6 @@
 
 + (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position
 {
-    // Flash
-    if ([[self cameraInPosition:position] hasFlash]) {
-        if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
-            if (flash) {
-                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeAuto]) {
-                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeAuto];
-                }
-            } else {
-                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOff]) {
-                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOff];
-                }
-            }
-            [[self cameraInPosition:position] unlockForConfiguration];
-        }
-    }
-    
     // Torch
     if ([[self cameraInPosition:position] hasTorch]) {
         if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
@@ -95,6 +79,22 @@
             } else {
                 if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOff]) {
                     [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOff];
+                }
+            }
+            [[self cameraInPosition:position] unlockForConfiguration];
+        }
+    }
+    
+    // Flash
+    else if ([[self cameraInPosition:position] hasFlash]) {
+        if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+            if (flash) {
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeAuto]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeAuto];
+                }
+            } else {
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOff]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOff];
                 }
             }
             [[self cameraInPosition:position] unlockForConfiguration];
@@ -221,6 +221,27 @@
     NSString *assetPath             = [documentsDirectory stringByAppendingPathComponent:assetName];
     
     return assetPath;
+}
+
++ (uint64_t)getFreeDiskSpace
+{
+    uint64_t totalSpace = 0;
+    uint64_t totalFreeSpace = 0;
+    
+    __autoreleasing NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
+    
+    if (dictionary) {
+        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
+        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
+        totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
+    } else {
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %d", [error domain], [error code]);
+    }
+    
+    return totalFreeSpace;
 }
 
 @end

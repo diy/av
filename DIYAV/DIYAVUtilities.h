@@ -26,5 +26,6 @@
 + (AVCaptureVideoOrientation)getAVCaptureOrientationFromDeviceOrientation;
 
 + (NSString *)createAssetFilePath:(NSString *)extension;
++ (uint64_t)getFreeDiskSpace;
 
 @end
