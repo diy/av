@@ -66,6 +66,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
                               .unwrap;
     
     _flash                  = [[self.options valueForKey:DIYAVSettingFlash] boolValue];
+    _cameraPosition         = [[self.options valueForKey:DIYAVSettingCameraPosition] integerValue];
     
     // AV setup
     _captureMode            = DIYAVModePhoto;
@@ -211,11 +212,17 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
 {
     self->_flash = flash;
     if (self.captureMode == DIYAVModePhoto) {
-        [DIYAVUtilities setFlash:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+        [DIYAVUtilities setFlash:self.flash forCameraInPosition:self.cameraPosition];
     }
     else if (self.captureMode == DIYAVModeVideo) {
-        [DIYAVUtilities setTorch:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+        [DIYAVUtilities setTorch:self.flash forCameraInPosition:self.cameraPosition];
     }
+}
+
+- (void)setCameraPosition:(int)cameraPosition
+{
+    self->_cameraPosition = cameraPosition;
+    [self setCaptureMode:self.captureMode];
 }
 
 - (void)setCaptureMode:(DIYAVMode)captureMode
@@ -275,15 +282,15 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    [DIYAVUtilities setFlash:self.flash forCameraInPosition:self.cameraPosition];
     
     // Inputs
     // ---------------------------------
-    AVCaptureDevice *videoDevice    = [DIYAVUtilities cameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    AVCaptureDevice *videoDevice    = [DIYAVUtilities cameraInPosition:self.cameraPosition];
     if (videoDevice) {
         NSError *error;
         self.videoInput             = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue] forCameraInPosition:self.cameraPosition];
         if (!error) {
             if ([self.session canAddInput:self.videoInput]) {
                 [self.session addInput:self.videoInput];
@@ -327,15 +334,15 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setTorch:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    [DIYAVUtilities setTorch:self.flash forCameraInPosition:self.cameraPosition];
     
     // Inputs
     // ---------------------------------
-    AVCaptureDevice *videoDevice    = [DIYAVUtilities cameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    AVCaptureDevice *videoDevice    = [DIYAVUtilities cameraInPosition:self.cameraPosition];
     if (videoDevice) {
         NSError *error;
         self.videoInput             = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+        [DIYAVUtilities setHighISO:[[self.options valueForKey:DIYAVSettingCameraHighISO] boolValue] forCameraInPosition:self.cameraPosition];
         if (!error) {
             if ([self.session canAddInput:self.videoInput]) {
                 [self.session addInput:self.videoInput];

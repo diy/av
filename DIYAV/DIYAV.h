@@ -57,6 +57,7 @@ NSString *const DIYAVSettingSaveLibrary;
 @property (nonatomic)   DIYAVMode           captureMode;
 @property               BOOL                isRecording;
 @property (nonatomic)   BOOL                flash;
+@property (nonatomic)   int                 cameraPosition;
 
 - (id)initWithOptions:(NSDictionary *)options;
 
