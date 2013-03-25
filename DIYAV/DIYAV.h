@@ -56,6 +56,7 @@ NSString *const DIYAVSettingSaveLibrary;
 @property (weak)        id<DIYAVDelegate>   delegate;
 @property (nonatomic)   DIYAVMode           captureMode;
 @property               BOOL                isRecording;
+@property (nonatomic)   BOOL                flash;
 
 - (id)initWithOptions:(NSDictionary *)options;
 

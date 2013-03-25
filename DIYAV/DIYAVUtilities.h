@@ -18,6 +18,9 @@
 + (BOOL)isVideoCameraAvailable;
 + (AVCaptureConnection *)connectionWithMediaType:(NSString *)mediaType fromConnections:(NSArray *)connections;
 
++ (BOOL)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position;
++ (void)setTorch:(BOOL)torch forCameraInPosition:(AVCaptureDevicePosition)position;
++ (BOOL)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position;
 + (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position;
 + (void)setHighISO:(BOOL)highISO forCameraInPosition:(AVCaptureDevicePosition)position;
 

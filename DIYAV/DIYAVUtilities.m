@@ -66,15 +66,34 @@
 
 #pragma mark - Device setup
 
-+ (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position
++ (BOOL)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position
 {
-    // Torch
+    BOOL flashEnabled = NO;
+    if ([[self cameraInPosition:position] hasFlash]) {
+        flashEnabled = ([self cameraInPosition:position].flashMode != AVCaptureFlashModeOff);
+    }
+    
+    return flashEnabled;
+}
+
++ (BOOL)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position
+{
+    BOOL torchEnabled = NO;
+    if ([[self cameraInPosition:position] hasTorch]) {
+        torchEnabled = ([self cameraInPosition:position].torchMode != AVCaptureTorchModeOff);
+    }
+    
+    return torchEnabled;
+}
+
++ (void)setTorch:(BOOL)torch forCameraInPosition:(AVCaptureDevicePosition)position
+{
     if ([[self cameraInPosition:position] hasTorch]) {
         if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
-            if (flash)
+            if (torch)
             {
-                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeAuto]) {
-                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeAuto];
+                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOn]) {
+                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOn];
                 }
             } else {
                 if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOff]) {
@@ -84,13 +103,16 @@
             [[self cameraInPosition:position] unlockForConfiguration];
         }
     }
-    
+}
+
++ (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position
+{    
     // Flash
-    else if ([[self cameraInPosition:position] hasFlash]) {
+    if ([[self cameraInPosition:position] hasFlash]) {
         if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
             if (flash) {
-                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeAuto]) {
-                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeAuto];
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOn]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOn];
                 }
             } else {
                 if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOff]) {

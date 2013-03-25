@@ -44,7 +44,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
 
 #pragma mark - Init
 
-- (void)_init
+- (void)_setupWithOptions:(NSDictionary *)options
 {
     // Options
     NSDictionary *defaultOptions;
@@ -61,9 +61,11 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
                                  DIYAVSettingVideoFPS           : @30,
                                  DIYAVSettingSaveLibrary        : @true };
     
-    _options                = Underscore.dict(_options)
-    .defaults(defaultOptions)
-    .unwrap;
+    _options                = Underscore.dict(options)
+                              .defaults(defaultOptions)
+                              .unwrap;
+    
+    _flash                  = [[self.options valueForKey:DIYAVSettingFlash] boolValue];
     
     // AV setup
     _captureMode            = DIYAVModePhoto;
@@ -85,8 +87,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
 {
     self = [super init];
     if (self) {
-        _options = @{};
-        [self _init];
+        [self _setupWithOptions:@{}];
     }
     
     return self;
@@ -99,8 +100,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         if (!options) {
             options = @{};
         }
-        _options = options;
-        [self _init];
+        [self _setupWithOptions:options];
     }
     
     return self;
@@ -207,6 +207,17 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
 
 #pragma mark - Override
 
+- (void)setFlash:(BOOL)flash
+{
+    self->_flash = flash;
+    if (self.captureMode == DIYAVModePhoto) {
+        [DIYAVUtilities setFlash:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    }
+    else if (self.captureMode == DIYAVModeVideo) {
+        [DIYAVUtilities setTorch:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    }
+}
+
 - (void)setCaptureMode:(DIYAVMode)captureMode
 {
     // Super
@@ -264,7 +275,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    [DIYAVUtilities setFlash:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
     
     // Inputs
     // ---------------------------------
@@ -316,7 +327,7 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
     
     // Flash & torch support
     // ---------------------------------
-    [DIYAVUtilities setFlash:[[self.options valueForKey:DIYAVSettingFlash] boolValue] forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
+    [DIYAVUtilities setTorch:self.flash forCameraInPosition:[[self.options valueForKey:DIYAVSettingCameraPosition] integerValue]];
     
     // Inputs
     // ---------------------------------
