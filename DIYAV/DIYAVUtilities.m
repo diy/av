@@ -143,7 +143,7 @@
     CGPoint pointOfInterest = CGPointMake(.5f, .5f);
     CGSize frameSize = frame.size;
     
-    if (preview.isMirrored) {
+    if (preview.connection.videoMirrored) {
         viewCoordinates.x = frameSize.width - viewCoordinates.x;
     }
     

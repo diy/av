@@ -72,7 +72,7 @@
 {
     AVCaptureVideoOrientation newOrientation = self.defaultOrientation;
 
-    if (!self.shouldForceOrientation && self.orientationSupported) {
+    if (!self.shouldForceOrientation && self.connection.supportsVideoOrientation) {
         UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
         
         switch (deviceOrientation) {
@@ -94,9 +94,9 @@
         }
     }
     
-    if (self.shouldForceOrientation || self.orientationSupported) {
+    if (self.shouldForceOrientation || self.connection.supportsVideoOrientation) {
         CGSize newSize = [self sizeForOrientation:[self isOrientationLandscape:newOrientation]];
-        self.orientation    = newOrientation;
+        self.connection.videoOrientation    = newOrientation;
         self.frame          = CGRectMake(0, 0, newSize.width, newSize.height);
     }
 }
