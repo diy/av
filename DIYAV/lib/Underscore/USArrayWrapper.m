@@ -116,30 +116,31 @@
 
 - (USArrayWrapper *)flatten
 {
+    __weak NSArray *array = self.array;
     __block NSArray *(^flatten)(NSArray *) = ^NSArray *(NSArray *input) {
         NSMutableArray *result = [NSMutableArray array];
-
+        
         for (id obj in input) {
             if ([obj isKindOfClass:[NSArray class]]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
                 [result addObjectsFromArray:flatten(obj)];
+#pragma clang diagnostic pop
             } else {
                 [result addObject:obj];
             }
         }
-
+        
+        // If the outmost call terminates, nil the reference to flatten to break
+        // the retain cycle
+        if (input == array) {
+            flatten = nil;
+        }
+        
         return result;
     };
-
+    
     return [USArrayWrapper wrap:flatten(self.array)];
-}
-
-- (USArrayWrapper *(^)(NSArray *))without
-{
-    return ^USArrayWrapper *(NSArray *value) {
-        return self.reject(^(id obj){
-            return [value containsObject:obj];
-        });
-    };
 }
 
 - (USArrayWrapper *)shuffle
