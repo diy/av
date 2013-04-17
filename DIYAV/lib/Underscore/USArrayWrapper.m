@@ -24,6 +24,9 @@
 //  IN THE SOFTWARE.
 //
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 #import "Underscore.h"
 
 #import "USArrayWrapper.h"
@@ -285,3 +288,5 @@
 }
 
 @end
+
+#pragma clang diagnostic pop

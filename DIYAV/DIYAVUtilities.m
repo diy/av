@@ -9,7 +9,6 @@
 #import "DIYAVUtilities.h"
 
 #import "DIYAVDefaults.h"
-#import "DIYAVPreview.h"
 
 #import <MobileCoreServices/UTCoreTypes.h>
 
@@ -138,14 +137,16 @@
 
 // Convert from view coordinates to camera coordinates, where {0,0} represents the top left of the picture area, and {1,1} represents
 // the bottom right in landscape mode with the home button on the right.
-+ (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(DIYAVPreview *)preview withPorts:(NSArray *)ports
++ (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(AVCaptureVideoPreviewLayer *)preview withPorts:(NSArray *)ports
 {
     CGPoint pointOfInterest = CGPointMake(.5f, .5f);
     CGSize frameSize = frame.size;
     
+    /*
     if (preview.isMirrored) {
         viewCoordinates.x = frameSize.width - viewCoordinates.x;
     }
+     */
     
     if ([preview.videoGravity isEqualToString:AVLayerVideoGravityResize]) {
 		// Scale, switch x and y, and reverse x

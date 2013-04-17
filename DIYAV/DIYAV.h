@@ -10,7 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DIYAVDefaults.h"
 
-@class DIYAVPreview;
 @class DIYAV;
 
 typedef enum {
@@ -34,6 +33,27 @@ NSString *const DIYAVSettingSaveLibrary;
 
 //
 
+@protocol DIYAVDelegate;
+@interface DIYAV : NSObject <AVCaptureFileOutputRecordingDelegate>
+
+@property (nonatomic, weak) id<DIYAVDelegate>   delegate;
+@property (nonatomic)       DIYAVMode           captureMode;
+@property                   BOOL                isRecording;
+@property (nonatomic)       BOOL                flash;
+@property (nonatomic)       int                 cameraPosition;
+
+- (id)initWithOptions:(NSDictionary *)options;
+
+- (void)startSession;
+- (void)stopSession;
+- (void)focusAtPoint:(CGPoint)point inFrame:(CGRect)frame;
+- (void)capturePhoto;
+- (void)captureVideoStart;
+- (void)captureVideoStop;
+
+@end
+
+//
 @protocol DIYAVDelegate <NSObject>
 @required
 - (void)AVAttachPreviewLayer:(CALayer *)layer;
@@ -50,22 +70,3 @@ NSString *const DIYAVSettingSaveLibrary;
 @end
 
 //
-
-@interface DIYAV : NSObject <AVCaptureFileOutputRecordingDelegate>
-
-@property (weak)        id<DIYAVDelegate>   delegate;
-@property (nonatomic)   DIYAVMode           captureMode;
-@property               BOOL                isRecording;
-@property (nonatomic)   BOOL                flash;
-@property (nonatomic)   int                 cameraPosition;
-
-- (id)initWithOptions:(NSDictionary *)options;
-
-- (void)startSession;
-- (void)stopSession;
-- (void)focusAtPoint:(CGPoint)point inFrame:(CGRect)frame;
-- (void)capturePhoto;
-- (void)captureVideoStart;
-- (void)captureVideoStop;
-
-@end

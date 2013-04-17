@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE506799171E506400EAE122 /* USArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DE506798171E506400EAE122 /* USArrayWrapper.m */; };
 		DE67106F16B9FDAA0031F2FE /* Underscore+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106616B9FDAA0031F2FE /* Underscore+Functional.m */; };
 		DE67107016B9FDAA0031F2FE /* Underscore.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106916B9FDAA0031F2FE /* Underscore.m */; };
-		DE67107116B9FDAA0031F2FE /* USArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106B16B9FDAA0031F2FE /* USArrayWrapper.m */; };
 		DE67107216B9FDAA0031F2FE /* USDictionaryWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DE67106E16B9FDAA0031F2FE /* USDictionaryWrapper.m */; };
 		DEEE480E16AF59750019F37C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE480D16AF59750019F37C /* UIKit.framework */; };
 		DEEE481016AF59750019F37C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE480F16AF59750019F37C /* Foundation.framework */; };
@@ -26,7 +26,6 @@
 		DEEE483916AF59770019F37C /* DIYAVTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE483816AF59770019F37C /* DIYAVTests.m */; };
 		DEEE484A16AF62130019F37C /* DIYAV.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE484916AF62130019F37C /* DIYAV.m */; };
 		DEEE484D16AF71710019F37C /* DIYAVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE484C16AF71710019F37C /* DIYAVUtilities.m */; };
-		DEEE485016B065310019F37C /* DIYAVPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEE484F16B065310019F37C /* DIYAVPreview.m */; };
 		DEEE485616B0A31A0019F37C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485516B0A31A0019F37C /* AssetsLibrary.framework */; };
 		DEEE485816B0A3210019F37C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485716B0A3210019F37C /* AVFoundation.framework */; };
 		DEEE485A16B0A3270019F37C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEE485916B0A3270019F37C /* CoreMedia.framework */; };
@@ -44,13 +43,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE50678E171E344800EAE122 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		DE50678F171E344800EAE122 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		DE506790171E344800EAE122 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		DE506797171E506400EAE122 /* USArrayWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USArrayWrapper.h; sourceTree = "<group>"; };
+		DE506798171E506400EAE122 /* USArrayWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USArrayWrapper.m; sourceTree = "<group>"; };
 		DE67106516B9FDAA0031F2FE /* Underscore+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Underscore+Functional.h"; sourceTree = "<group>"; };
 		DE67106616B9FDAA0031F2FE /* Underscore+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Underscore+Functional.m"; sourceTree = "<group>"; };
 		DE67106716B9FDAA0031F2FE /* Underscore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Underscore-Prefix.pch"; sourceTree = "<group>"; };
 		DE67106816B9FDAA0031F2FE /* Underscore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Underscore.h; sourceTree = "<group>"; };
 		DE67106916B9FDAA0031F2FE /* Underscore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Underscore.m; sourceTree = "<group>"; };
-		DE67106A16B9FDAA0031F2FE /* USArrayWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USArrayWrapper.h; sourceTree = "<group>"; };
-		DE67106B16B9FDAA0031F2FE /* USArrayWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USArrayWrapper.m; sourceTree = "<group>"; };
 		DE67106C16B9FDAA0031F2FE /* USConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USConstants.h; sourceTree = "<group>"; };
 		DE67106D16B9FDAA0031F2FE /* USDictionaryWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USDictionaryWrapper.h; sourceTree = "<group>"; };
 		DE67106E16B9FDAA0031F2FE /* USDictionaryWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USDictionaryWrapper.m; sourceTree = "<group>"; };
@@ -66,7 +68,6 @@
 		DEEE481D16AF59750019F37C /* DIYAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIYAppDelegate.m; sourceTree = "<group>"; };
 		DEEE481F16AF59750019F37C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		DEEE482116AF59750019F37C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		DEEE482316AF59750019F37C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		DEEE482A16AF59760019F37C /* DIYAVTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DIYAVTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEE482B16AF59760019F37C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		DEEE483316AF59770019F37C /* DIYAVTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DIYAVTests-Info.plist"; sourceTree = "<group>"; };
@@ -77,8 +78,6 @@
 		DEEE484916AF62130019F37C /* DIYAV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DIYAV.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DEEE484B16AF71710019F37C /* DIYAVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAVUtilities.h; sourceTree = "<group>"; };
 		DEEE484C16AF71710019F37C /* DIYAVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYAVUtilities.m; sourceTree = "<group>"; };
-		DEEE484E16B065310019F37C /* DIYAVPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAVPreview.h; sourceTree = "<group>"; };
-		DEEE484F16B065310019F37C /* DIYAVPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYAVPreview.m; sourceTree = "<group>"; };
 		DEEE485116B07E560019F37C /* DIYAVDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAVDefaults.h; sourceTree = "<group>"; };
 		DEEE485516B0A31A0019F37C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		DEEE485716B0A3210019F37C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -131,8 +130,8 @@
 				DE67106716B9FDAA0031F2FE /* Underscore-Prefix.pch */,
 				DE67106816B9FDAA0031F2FE /* Underscore.h */,
 				DE67106916B9FDAA0031F2FE /* Underscore.m */,
-				DE67106A16B9FDAA0031F2FE /* USArrayWrapper.h */,
-				DE67106B16B9FDAA0031F2FE /* USArrayWrapper.m */,
+				DE506797171E506400EAE122 /* USArrayWrapper.h */,
+				DE506798171E506400EAE122 /* USArrayWrapper.m */,
 				DE67106C16B9FDAA0031F2FE /* USConstants.h */,
 				DE67106D16B9FDAA0031F2FE /* USDictionaryWrapper.h */,
 				DE67106E16B9FDAA0031F2FE /* USDictionaryWrapper.m */,
@@ -190,13 +189,15 @@
 		DEEE481416AF59750019F37C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DE50678E171E344800EAE122 /* Base.xcconfig */,
+				DE50678F171E344800EAE122 /* Debug.xcconfig */,
+				DE506790171E344800EAE122 /* Release.xcconfig */,
 				DEEE481516AF59750019F37C /* DIYAV-Info.plist */,
 				DEEE481616AF59750019F37C /* InfoPlist.strings */,
 				DEEE481916AF59750019F37C /* main.m */,
 				DEEE481B16AF59750019F37C /* DIYAV-Prefix.pch */,
 				DEEE481F16AF59750019F37C /* Default.png */,
 				DEEE482116AF59750019F37C /* Default@2x.png */,
-				DEEE482316AF59750019F37C /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -226,8 +227,6 @@
 				DEEE484816AF62130019F37C /* DIYAV.h */,
 				DEEE484916AF62130019F37C /* DIYAV.m */,
 				DEEE485116B07E560019F37C /* DIYAVDefaults.h */,
-				DEEE484E16B065310019F37C /* DIYAVPreview.h */,
-				DEEE484F16B065310019F37C /* DIYAVPreview.m */,
 				DEEE484B16AF71710019F37C /* DIYAVUtilities.h */,
 				DEEE484C16AF71710019F37C /* DIYAVUtilities.m */,
 			);
@@ -348,11 +347,10 @@
 				DEEE481E16AF59750019F37C /* DIYAppDelegate.m in Sources */,
 				DEEE484A16AF62130019F37C /* DIYAV.m in Sources */,
 				DEEE484D16AF71710019F37C /* DIYAVUtilities.m in Sources */,
-				DEEE485016B065310019F37C /* DIYAVPreview.m in Sources */,
 				DE67106F16B9FDAA0031F2FE /* Underscore+Functional.m in Sources */,
 				DE67107016B9FDAA0031F2FE /* Underscore.m in Sources */,
-				DE67107116B9FDAA0031F2FE /* USArrayWrapper.m in Sources */,
 				DE67107216B9FDAA0031F2FE /* USDictionaryWrapper.m in Sources */,
+				DE506799171E506400EAE122 /* USArrayWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +394,7 @@
 /* Begin XCBuildConfiguration section */
 		DEEE483A16AF59770019F37C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE50678F171E344800EAE122 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -424,6 +423,7 @@
 		};
 		DEEE483B16AF59770019F37C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE506790171E344800EAE122 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
