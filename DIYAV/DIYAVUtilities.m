@@ -143,10 +143,10 @@
     CGSize frameSize = frame.size;
     
     /*
-    if (preview.isMirrored) {
+    if (preview.connection.videoMirrored) {
         viewCoordinates.x = frameSize.width - viewCoordinates.x;
     }
-     */
+    */
     
     if ([preview.videoGravity isEqualToString:AVLayerVideoGravityResize]) {
 		// Scale, switch x and y, and reverse x
