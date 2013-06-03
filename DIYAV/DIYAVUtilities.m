@@ -221,7 +221,7 @@
             orientation = AVCaptureVideoOrientationPortraitUpsideDown;
             break;
         case UIDeviceOrientationLandscapeLeft:
-            orientation = AVCaptureVideoOrientationPortrait;
+            orientation = AVCaptureVideoOrientationLandscapeRight;
             break;
         case UIDeviceOrientationLandscapeRight:
             orientation = AVCaptureVideoOrientationLandscapeLeft;
