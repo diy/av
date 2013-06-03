@@ -153,10 +153,8 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         
         // Connection
         AVCaptureConnection *stillImageConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[_stillImageOutput connections]];
-        if ([_options valueForKey:DIYAVSettingOrientationForce]) {
+        if ([[_options valueForKey:DIYAVSettingOrientationForce] boolValue]) {
             stillImageConnection.videoOrientation = [[_options valueForKey:DIYAVSettingOrientationDefault] integerValue];
-        } else {
-            stillImageConnection.videoOrientation = [[UIDevice currentDevice] orientation];
         }
         
         // Capture image async block
@@ -191,10 +189,13 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         
         // Record in the correct orientation
         AVCaptureConnection *videoConnection = [DIYAVUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[_movieFileOutput connections]];
-        if ([videoConnection isVideoOrientationSupported] && ![[_options valueForKey:DIYAVSettingOrientationForce] boolValue]) {
-            [videoConnection setVideoOrientation:[DIYAVUtilities getAVCaptureOrientationFromDeviceOrientation]];
-        } else {
-            [videoConnection setVideoOrientation:[[_options valueForKey:DIYAVSettingOrientationDefault] integerValue]];
+        
+        if ([videoConnection isVideoOrientationSupported]){
+            if([[_options valueForKey:DIYAVSettingOrientationForce] boolValue]) {
+                [videoConnection setVideoOrientation:[[_options valueForKey:DIYAVSettingOrientationDefault] integerValue]];
+            } else {
+                [videoConnection setVideoOrientation:[DIYAVUtilities getAVCaptureOrientationFromDeviceOrientation]];
+            }
         }
         
         // Start recording
@@ -466,6 +467,17 @@ NSString *const DIYAVSettingSaveLibrary            = @"DIYAVSettingSaveLibrary";
         CGSize newSize = [self sizeForOrientation:[self isOrientationLandscape:newOrientation]];
         connection.videoOrientation     = newOrientation;
         _preview.frame                  = CGRectMake(0, 0, newSize.width, newSize.height);
+        
+        //update preview orientation
+        if([_preview respondsToSelector:@selector(connection)]){
+            //iOS6+
+            _preview.connection.videoOrientation = newOrientation;
+        }else if([_preview respondsToSelector:@selector(orientation)]){
+            //iOS5 -
+            if(_preview.orientationSupported){
+                _preview.orientation = newOrientation;
+            }
+        }
     }
 }
 
