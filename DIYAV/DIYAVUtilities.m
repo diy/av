@@ -9,6 +9,7 @@
 #import "DIYAVUtilities.h"
 
 #import "DIYAVDefaults.h"
+#import "DIYAVPreview.h"
 
 #import <MobileCoreServices/UTCoreTypes.h>
 
@@ -103,6 +104,69 @@
         }
     }
 }
++ (void)setFlashMode:(DIYAVFlashMode)flashMode forCameraInPosition:(AVCaptureDevicePosition)position {
+    if(flashMode == DIYAVFlashModeAuto) {
+        // Flash
+        if ([[self cameraInPosition:position] hasFlash]) {
+            if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeAuto]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeAuto];
+                }
+                [[self cameraInPosition:position] unlockForConfiguration];
+            }
+        }
+        
+        // Torch
+        if ([[self cameraInPosition:position] hasTorch]) {
+            if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeAuto]) {
+                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeAuto];
+                }
+                [[self cameraInPosition:position] unlockForConfiguration];
+            }
+        }
+    } else if(flashMode == DIYAVFlashModeOn) {
+        // Flash
+        if ([[self cameraInPosition:position] hasFlash]) {
+            if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOn]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOn];
+                }
+                [[self cameraInPosition:position] unlockForConfiguration];
+            }
+        }
+        
+        // Torch
+        if ([[self cameraInPosition:position] hasTorch]) {
+            if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOn]) {
+                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOn];
+                }
+                [[self cameraInPosition:position] unlockForConfiguration];
+            }
+        }
+    } else if(flashMode == DIYAVFlashModeOff) {
+        // Flash
+        if ([[self cameraInPosition:position] hasFlash]) {
+            if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOff]) {
+                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOff];
+                }
+                [[self cameraInPosition:position] unlockForConfiguration];
+            }
+        }
+        
+        // Torch
+        if ([[self cameraInPosition:position] hasTorch]) {
+            if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
+                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOff]) {
+                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOff];
+                }
+                [[self cameraInPosition:position] unlockForConfiguration];
+            }
+        }
+    }
+}
 
 + (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position
 {    
@@ -137,16 +201,14 @@
 
 // Convert from view coordinates to camera coordinates, where {0,0} represents the top left of the picture area, and {1,1} represents
 // the bottom right in landscape mode with the home button on the right.
-+ (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(AVCaptureVideoPreviewLayer *)preview withPorts:(NSArray *)ports
++ (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(DIYAVPreview *)preview withPorts:(NSArray *)ports
 {
     CGPoint pointOfInterest = CGPointMake(.5f, .5f);
     CGSize frameSize = frame.size;
     
-    /*
-    if (preview.connection.videoMirrored) {
+    if (preview.isMirrored) {
         viewCoordinates.x = frameSize.width - viewCoordinates.x;
     }
-    */
     
     if ([preview.videoGravity isEqualToString:AVLayerVideoGravityResize]) {
 		// Scale, switch x and y, and reverse x
@@ -220,14 +282,14 @@
         case UIDeviceOrientationPortraitUpsideDown:
             orientation = AVCaptureVideoOrientationPortraitUpsideDown;
             break;
-        case UIDeviceOrientationPortrait:
+        case UIDeviceOrientationLandscapeLeft:
             orientation = AVCaptureVideoOrientationPortrait;
             break;
         case UIDeviceOrientationLandscapeRight:
             orientation = AVCaptureVideoOrientationLandscapeLeft;
             break;
         default:
-            orientation = AVCaptureVideoOrientationLandscapeRight;
+            orientation = AVCaptureVideoOrientationPortrait;
             break;
     }
     

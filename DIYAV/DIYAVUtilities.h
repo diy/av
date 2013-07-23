@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+@class DIYAVPreview;
+typedef enum {
+    DIYAVFlashModeOn,
+    DIYAVFlashModeOff,
+    DIYAVFlashModeAuto
+} DIYAVFlashMode;
+
 @interface DIYAVUtilities : NSObject
 
 + (AVCaptureDevice *)cameraInPosition:(AVCaptureDevicePosition)position;
@@ -19,10 +26,11 @@
 + (BOOL)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position;
 + (void)setTorch:(BOOL)torch forCameraInPosition:(AVCaptureDevicePosition)position;
 + (BOOL)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position;
++ (void)setFlashMode:(DIYAVFlashMode)flashMode forCameraInPosition:(AVCaptureDevicePosition)position;
 + (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position;
 + (void)setHighISO:(BOOL)highISO forCameraInPosition:(AVCaptureDevicePosition)position;
 
-+ (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(AVCaptureVideoPreviewLayer *)preview withPorts:(NSArray *)ports;
++ (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(DIYAVPreview *)preview withPorts:(NSArray *)ports;
 
 + (AVCaptureVideoOrientation)getAVCaptureOrientationFromDeviceOrientation;
 
