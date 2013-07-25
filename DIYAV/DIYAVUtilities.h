@@ -16,10 +16,10 @@
 + (BOOL)isVideoCameraAvailable;
 + (AVCaptureConnection *)connectionWithMediaType:(NSString *)mediaType fromConnections:(NSArray *)connections;
 
-+ (BOOL)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position;
-+ (void)setTorch:(BOOL)torch forCameraInPosition:(AVCaptureDevicePosition)position;
-+ (BOOL)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position;
-+ (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position;
++ (AVCaptureTorchMode)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position;
++ (void)setTorch:(AVCaptureTorchMode)torch forCameraInPosition:(AVCaptureDevicePosition)position;
++ (AVCaptureFlashMode)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position;
++ (void)setFlash:(AVCaptureFlashMode)flash forCameraInPosition:(AVCaptureDevicePosition)position;
 + (void)setHighISO:(BOOL)highISO forCameraInPosition:(AVCaptureDevicePosition)position;
 
 + (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates withFrame:(CGRect)frame withPreview:(AVCaptureVideoPreviewLayer *)preview withPorts:(NSArray *)ports;
