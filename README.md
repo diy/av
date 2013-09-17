@@ -1,4 +1,5 @@
 ## AV
+#### Deprecated. See [PBJVision](https://github.com/piemonte/PBJVision).
 #### A "keep it simple, stupid" approach to working with AVFoundation
 
 DIYAV is a high-level layer built on top of AVFoundation that enables simple setup and implementation of photo and video capture within iOS.
