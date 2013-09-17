@@ -65,58 +65,43 @@
 
 #pragma mark - Device setup
 
-+ (BOOL)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position
++ (AVCaptureFlashMode)getFlashStatusForCameraInPosition:(AVCaptureDevicePosition)position
 {
-    BOOL flashEnabled = NO;
     if ([[self cameraInPosition:position] hasFlash]) {
-        flashEnabled = ([self cameraInPosition:position].flashMode != AVCaptureFlashModeOff);
+        return [self cameraInPosition:position].flashMode;
     }
     
-    return flashEnabled;
+    return AVCaptureFlashModeOff;
 }
 
-+ (BOOL)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position
++ (AVCaptureTorchMode)getTorchStatusForCameraInPosition:(AVCaptureDevicePosition)position
 {
-    BOOL torchEnabled = NO;
     if ([[self cameraInPosition:position] hasTorch]) {
-        torchEnabled = ([self cameraInPosition:position].torchMode != AVCaptureTorchModeOff);
+        return [self cameraInPosition:position].torchMode;
     }
     
-    return torchEnabled;
+    return AVCaptureTorchModeOff;
 }
 
-+ (void)setTorch:(BOOL)torch forCameraInPosition:(AVCaptureDevicePosition)position
++ (void)setTorch:(AVCaptureTorchMode)torch forCameraInPosition:(AVCaptureDevicePosition)position
 {
     if ([[self cameraInPosition:position] hasTorch]) {
         if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
-            if (torch)
-            {
-                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOn]) {
-                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOn];
-                }
-            } else {
-                if ([[self cameraInPosition:position] isTorchModeSupported:AVCaptureTorchModeOff]) {
-                    [[self cameraInPosition:position] setTorchMode:AVCaptureTorchModeOff];
-                }
+            if ([[self cameraInPosition:position] isTorchModeSupported:torch]) {
+                [[self cameraInPosition:position] setTorchMode:torch];
             }
             [[self cameraInPosition:position] unlockForConfiguration];
         }
     }
 }
 
-+ (void)setFlash:(BOOL)flash forCameraInPosition:(AVCaptureDevicePosition)position
++ (void)setFlash:(AVCaptureFlashMode)flash forCameraInPosition:(AVCaptureDevicePosition)position
 {    
     // Flash
     if ([[self cameraInPosition:position] hasFlash]) {
         if ([[self cameraInPosition:position] lockForConfiguration:nil]) {
-            if (flash) {
-                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOn]) {
-                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOn];
-                }
-            } else {
-                if ([[self cameraInPosition:position] isFlashModeSupported:AVCaptureFlashModeOff]) {
-                    [[self cameraInPosition:position] setFlashMode:AVCaptureFlashModeOff];
-                }
+            if ([[self cameraInPosition:position] isFlashModeSupported:flash]) {
+                [[self cameraInPosition:position] setFlashMode:flash];
             }
             [[self cameraInPosition:position] unlockForConfiguration];
         }
